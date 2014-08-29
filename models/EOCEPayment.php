@@ -1,8 +1,8 @@
 <?php
 
-class AdminEOCEShipping extends ObjectModel {
+class EOCEPayment extends ObjectModel {
 
-    public $id_extended_order_confirmation_email_shipping;
+    public $id_extended_order_confirmation_email_payment;
     public $id_of_type;
     public $block_1;
     public $block_2;
@@ -21,11 +21,11 @@ class AdminEOCEShipping extends ObjectModel {
      * @see ObjectModel::$definition
      */
     public static $definition = array(
-        'table' => 'extended_order_confirmation_email_shipping',
-        'primary' => 'id_extended_order_confirmation_email_shipping',
+        'table' => 'extended_order_confirmation_email_payment',
+        'primary' => 'id_extended_order_confirmation_email_payment',
         'multilang' => TRUE,
         'fields' => array(
-            'id_of_type' => array('type' => self::TYPE_INT),
+            'id_of_type' => array('type' => self::TYPE_STRING),
             'block_1' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isString'),
             'block_2' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isString')
         )
@@ -33,17 +33,16 @@ class AdminEOCEShipping extends ObjectModel {
 
     public static function getAll($parms = array()) {
         self::_init();
-        $id_lang = Context::getContext()->language->id;
         $sql = new DbQuery();
         $sql->select('*');
         $sql->from(self::$definition['table'], 'c');
-        $sql->leftJoin(self::$definition['table'] . '_lang', 'l', 'c.' . self::$definition['primary'] . ' = l.' . self::$definition['primary'] . ' AND l.id_lang = ' . (int) $id_lang);
+        $sql->leftJoin(self::$definition['table'] . '_lang', 'l', 'c.' . self::$definition['primary'] . ' = l.' . self::$definition['primary'] . ' AND l.id_lang = ' . (int) Context::getContext()->language->id);
         if (Shop::isFeatureActive())
             $sql->innerJoin(self::$definition['table'] . '_shop', 's', 'c.' . self::$definition['primary'] . ' = s.' . self::$definition['primary'] . ' AND s.id_shop = ' . (int) Context::getContext()->shop->id);
-
         if (empty($parms) == false)
             foreach ($parms as $k => $p)
                 $sql->where('' . $k . ' =\'' . $p . '\'');
+        echo $sql->build();
         return Db::getInstance()->executeS($sql);
     }
 

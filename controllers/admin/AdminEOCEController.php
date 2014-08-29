@@ -15,10 +15,10 @@ class AdminEOCEController extends ModuleAdminController {
         $this->className = 'AdminEOCE';
 
 
-        $this->admin_eoce_payment = new AdminEOCEPaymentController();
+        $this->admin_eoce_payment = new EOCEPaymentController();
         $this->admin_eoce_payment->init();
 
-        $this->admin_eoce_shipping = new AdminEOCEShippingController();
+        $this->admin_eoce_shipping = new EOCEShippingController();
         $this->admin_eoce_shipping->init();
 
         $this->lang = true;

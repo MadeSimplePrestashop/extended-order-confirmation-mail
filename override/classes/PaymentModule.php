@@ -25,8 +25,8 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/AdminEOCEPayment.php');
-require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/AdminEOCEShipping.php');
+require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEPayment.php');
+require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEShipping.php');
 
 class PaymentModule extends PaymentModuleCore {
 
@@ -34,7 +34,7 @@ class PaymentModule extends PaymentModuleCore {
 
         $cart = new Cart($id_cart);
         $parms = array('id_of_type' => (string) $this->name);
-        $payment_blocks = AdminEOCEPayment::getAll($parms);
+        $payment_blocks = EOCEPayment::getAll($parms);
         $extra_vars['{block_1_payment}'] = '';
         $extra_vars['{block_2_payment}'] = '';
         foreach ($payment_blocks as $pb) {
@@ -43,7 +43,7 @@ class PaymentModule extends PaymentModuleCore {
         }
 
         $parms = array('id_of_type' => $cart->id_carrier);
-        $shipping_blocks = AdminEOCEShipping::getAll($parms);
+        $shipping_blocks = EOCEShipping::getAll($parms);
         $extra_vars['{block_1_shipping}'] = '';
         $extra_vars['{block_2_shipping}'] = '';
         foreach ($shipping_blocks as $sb) {

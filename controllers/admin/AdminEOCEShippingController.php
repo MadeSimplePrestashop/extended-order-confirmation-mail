@@ -1,14 +1,14 @@
 <?php
 
-require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/models/AdminEOCEShipping.php');
+require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/models/EOCEShipping.php');
 
-class AdminEOCEShippingController extends ModuleAdminController {
+class EOCEShippingController extends ModuleAdminController {
 
     public function __construct() {
         $this->bootstrap = true;
 
         $this->table = 'extended_order_confirmation_email_shipping';
-        $this->className = 'AdminEOCEShipping';
+        $this->className = 'EOCEShipping';
 
         $this->addRowAction('edit');
         $this->addRowAction('delete');

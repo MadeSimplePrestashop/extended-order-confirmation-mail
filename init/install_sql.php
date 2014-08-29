@@ -47,4 +47,10 @@ $sql[] = ''
       PRIMARY KEY (`id_extended_order_confirmation_email_shipping`, `id_shop`)
     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8;'
         . '';
+
+foreach ($sql as $s) {
+    if (!Db::getInstance()->Execute($s)) {
+        return false;
+    }
+}
 ?>
