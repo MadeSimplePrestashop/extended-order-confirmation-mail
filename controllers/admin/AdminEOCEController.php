@@ -1,4 +1,12 @@
 <?php
+/**
+ * Module Extended Order confirmation email 
+ * 
+ * @author 	kuzmany.biz
+ * @copyright 	kuzmany.biz/prestashop
+ * @license 	kuzmany.biz/prestashop
+ * Reminder: You own a single production license. It would only be installed on one online store (or multistore)
+ */
 
 require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/controllers/admin/AdminEOCEPaymentController.php');
 require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/controllers/admin/AdminEOCEShippingController.php');

@@ -1,13 +1,16 @@
 <?php
+/**
+ * Module Extended Order confirmation email 
+ * 
+ * @author 	kuzmany.biz
+ * @copyright 	kuzmany.biz/prestashop
+ * @license 	kuzmany.biz/prestashop
+ * Reminder: You own a single production license. It would only be installed on one online store (or multistore)
+ */
 
 if (!defined('_PS_VERSION_'))
     exit;
 
-/**
- * Module Order confirmation email extended
- * @copyright 	kuzmany.biz/prestashop
- * Reminder: You own a single production license. It would only be installed on one online store (or multistore)
- */
 require_once(dirname(__FILE__) . '/models/EOCEPayment.php');
 require_once(dirname(__FILE__) . '/models/EOCEShipping.php');
 
