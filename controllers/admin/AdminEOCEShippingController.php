@@ -18,7 +18,7 @@ class EOCEShippingController extends ModuleAdminController {
 
     public function renderForm() {
 
-        if (!($obj = $this->loadObject(true)))
+        if (!$this->loadObject(true))
             return;
 
         $this->fields_form = array(

@@ -52,21 +52,26 @@ class AdminEOCEController extends ModuleAdminController {
     }
 
     public function getShipping($echo, $row) {
-        //return TuliNotificationO::$sysparams['stock'][$row['stock']]['label'];
-        return 'test';
+        $carriers = Carrier::getCarriers($this->context->language->id, true);
+        foreach($carriers as $carrier)
+            if($row['id_of_type'] == $carrier['id_carrier'])
+                return $carrier['name'];
     }
 
     public function getPayment($echo, $row) {
-        //return TuliNotificationO::$sysparams['stock'][$row['stock']]['label'];
-        return 'test';
+        $modules = Module::getModulesOnDisk(true);
+        foreach ($modules as $module) {
+            if ($module->tab == 'payments_gateways' && $module->active && $module->name == $row['id_of_type'])
+                return $module->displayName;
+        }
     }
 
     public function getBlock1($echo, $row) {
-        return substr(strip_tags($row['block_1']), 0, 150);
+        return Tools::substr(strip_tags($row['block_1']), 0, 150);
     }
 
     public function getBlock2($echo, $row) {
-        return substr(strip_tags($row['block_2']), 0, 150);
+        return Tools::substr(strip_tags($row['block_2']), 0, 150);
     }
 
     public function renderPageHeaderToolbar() {
@@ -94,7 +99,7 @@ class AdminEOCEController extends ModuleAdminController {
         if (is_array($this->page_header_toolbar_btn) && $this->page_header_toolbar_btn instanceof Traversable || trim($this->page_header_toolbar_title) != '')
             $this->show_page_header_toolbar = true;
 
-        $template = $this->context->smarty->createTemplate(
+        $this->context->smarty->createTemplate(
                 $this->context->smarty->getTemplateDir(0) . DIRECTORY_SEPARATOR
                 . 'page_header_toolbar.tpl', $this->context->smarty);
 
