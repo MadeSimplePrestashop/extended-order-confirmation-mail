@@ -25,33 +25,36 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEPayment.php');
-require_once(_PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEShipping.php');
-
 class PaymentModule extends PaymentModuleCore {
 
     public function validateOrder($id_cart, $id_order_state, $amount_paid, $payment_method = 'Unknown', $message = null, $extra_vars = array(), $currency_special = null, $dont_touch_amount = false, $secure_key = false, Shop $shop = null) {
 
-        $cart = new Cart($id_cart);
-        $parms = array('id_of_type' => (string) $this->name);
-        $payment_blocks = EOCEPayment::getAll($parms);
-        $extra_vars['{block_1_payment}'] = '';
-        $extra_vars['{block_2_payment}'] = '';
-        foreach ($payment_blocks as $pb) {
-            $extra_vars['{block_1_payment}'] .= $pb['block_1'];
-            $extra_vars['{block_2_payment}'] .= $pb['block_2'];
-        }
+        $EOCEPaymentController = _PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEPayment.php';
+        $EOCEShippingController = _PS_MODULE_DIR_ . '/extendedorderconfirmationemail/models/EOCEShipping.php';
+        if (file_exists($EOCEShippingController) && file_exists($EOCEPaymentController)) {
+            
+            require_once($EOCEPaymentController);
+            require_once($EOCEShippingController);
+            
+            $cart = new Cart($id_cart);
+            $parms = array('id_of_type' => (string) $this->name);
+            $payment_blocks = EOCEPayment::getAll($parms);
+            $extra_vars['{block_1_payment}'] = '';
+            $extra_vars['{block_2_payment}'] = '';
+            foreach ($payment_blocks as $pb) {
+                $extra_vars['{block_1_payment}'] .= $pb['block_1'];
+                $extra_vars['{block_2_payment}'] .= $pb['block_2'];
+            }
 
-        $parms = array('id_of_type' => $cart->id_carrier);
-        $shipping_blocks = EOCEShipping::getAll($parms);
-        $extra_vars['{block_1_shipping}'] = '';
-        $extra_vars['{block_2_shipping}'] = '';
-        foreach ($shipping_blocks as $sb) {
-            $extra_vars['{block_1_shipping}'] .= $sb['block_1'];
-            $extra_vars['{block_2_shipping}'] .= $sb['block_2'];
+            $parms = array('id_of_type' => $cart->id_carrier);
+            $shipping_blocks = EOCEShipping::getAll($parms);
+            $extra_vars['{block_1_shipping}'] = '';
+            $extra_vars['{block_2_shipping}'] = '';
+            foreach ($shipping_blocks as $sb) {
+                $extra_vars['{block_1_shipping}'] .= $sb['block_1'];
+                $extra_vars['{block_2_shipping}'] .= $sb['block_2'];
+            }
         }
-
         parent::validateOrder($id_cart, $id_order_state, $amount_paid, $payment_method, $message, $extra_vars, $currency_special, $dont_touch_amount, $secure_key, $shop);
     }
-
 }
