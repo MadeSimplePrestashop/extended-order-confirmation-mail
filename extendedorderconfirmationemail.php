@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Module Extended Order confirmation email 
  * 
@@ -7,7 +8,6 @@
  * @license 	kuzmany.biz/prestashop
  * Reminder: You own a single production license. It would only be installed on one online store (or multistore)
  */
-
 if (!defined('_PS_VERSION_'))
     exit;
 
@@ -40,20 +40,20 @@ class extendedorderconfirmationemail extends Module {
 
         include_once(dirname(__FILE__) . '/init/install_sql.php');
 
-        // Install Tabs
+// Install Tabs
         $this->context->controller->getLanguages();
         $lang_array = array();
-        $id_parent =Tab::getIdFromClassName('AdminParentLocalization');
+        $id_parent = Tab::getIdFromClassName('AdminParentLocalization');
         foreach ($this->context->controller->_languages as $language)
             $lang_array[(int) $language['id_lang']] = $this->displayName;
         $tab = $this->installAdminTab($lang_array, 'AdminEOCE', $id_parent);
         $id_parent = $tab->id;
-        //payment controller
+//payment controller
         $lang_array = array();
         foreach ($this->context->controller->_languages as $language)
             $lang_array[(int) $language['id_lang']] = $this->displayName . ' payment';
         $this->installAdminTab($lang_array, 'EOCEPayment', $id_parent);
-        //shipping controller
+//shipping controller
         $lang_array = array();
         foreach ($this->context->controller->_languages as $language)
             $lang_array[(int) $language['id_lang']] = $this->displayName . ' shipping';
@@ -73,6 +73,10 @@ class extendedorderconfirmationemail extends Module {
         $this->uninstallAdminTab('EOCEShipping');
 
         return true;
+    }
+
+    public function getContent() {
+        Tools::redirectAdmin('index.php?controller=AdminEOCE&token=' . Tools::getAdminTokenLite('AdminEOCE'));
     }
 
     private function installAdminTab($name, $className, $parent) {
@@ -101,4 +105,5 @@ class extendedorderconfirmationemail extends Module {
             Db::getInstance()->update(EOCEShipping::$definition['table'], $parms, 'id_of_type=' . (int) $shipping['id_of_type']);
         }
     }
+
 }
