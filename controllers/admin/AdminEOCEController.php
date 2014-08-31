@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Module Extended Order confirmation email 
  * 
@@ -7,7 +8,6 @@
  * @license 	kuzmany.biz/prestashop
  * Reminder: You own a single production license. It would only be installed on one online store (or multistore)
  */
-
 require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/controllers/admin/AdminEOCEPaymentController.php');
 require_once(_PS_MODULE_DIR_ . 'extendedorderconfirmationemail/controllers/admin/AdminEOCEShippingController.php');
 
@@ -49,11 +49,9 @@ class AdminEOCEController extends ModuleAdminController {
         else if (Tools::getIsset('add' . $this->admin_eoce_shipping->table) || Tools::getIsset('update' . $this->admin_eoce_shipping->table))
             $this->content.= $this->admin_eoce_shipping->renderForm();
         else {
-
             $this->content .= $this->admin_eoce_payment->renderList();
             $this->content .= $this->admin_eoce_shipping->renderList();
         }
-
         $this->context->smarty->assign(array(
             'content' => $this->content
         ));
@@ -61,8 +59,8 @@ class AdminEOCEController extends ModuleAdminController {
 
     public function getShipping($echo, $row) {
         $carriers = Carrier::getCarriers($this->context->language->id, true);
-        foreach($carriers as $carrier)
-            if($row['id_of_type'] == $carrier['id_carrier'])
+        foreach ($carriers as $carrier)
+            if ($row['id_of_type'] == $carrier['id_carrier'])
                 return $carrier['name'];
     }
 
